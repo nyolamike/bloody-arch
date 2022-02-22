@@ -1,8 +1,6 @@
 defmodule Cell.Tag.Util do
 
-
-
-  def follow_tag(self, msg, state) do
+  def follow_tag(sender, msg, state) do
     # process msg
     # check if a users uuid is already here
     new_followers =
@@ -13,7 +11,7 @@ defmodule Cell.Tag.Util do
 
     # send a response back to the source
     Cell.Util.send_response(
-      self,
+      sender,
       :res_follow_tag,
       %{
         results: :ok,
@@ -50,12 +48,12 @@ defmodule Cell.Tag.Util do
     %{state | followers: new_followers}
   end
 
-  def get_followers(self, msg, state) do
+  def get_followers(sender, msg, state) do
     # process msg
     followers = state.followers
     # send a response back to the source
     Cell.Util.send_response(
-      self,
+      sender,
       :res_get_followers,
       %{
         results: followers,
@@ -67,7 +65,7 @@ defmodule Cell.Tag.Util do
     state
   end
 
-  def add_tag_resource(self, msg, state) do
+  def add_tag_resource(sender, msg, state) do
     # process msg
     # check if a resources uuid is already here
     new_resources =
@@ -78,7 +76,7 @@ defmodule Cell.Tag.Util do
 
     # send a response back to the source
     Cell.Util.send_response(
-      self,
+      sender,
       :res_add_tag_resource,
       %{
         results: :ok,
@@ -91,14 +89,14 @@ defmodule Cell.Tag.Util do
     %{state | resources: new_resources}
   end
 
-  def get_resources(self, msg, state) do
+  def get_resources(sender, msg, state) do
     # process msg
     resources = state.resources
 
     # send a response back to the source
     Cell.Util.send_response(
-      self,
-      :res_get_resource,
+      sender,
+      :res_get_resources,
       %{
         results: resources,
         errors: []
