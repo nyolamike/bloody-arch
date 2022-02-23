@@ -21,5 +21,28 @@ defmodule Cell.Tag.Test do
 
       assert(exp_initial_state == ret_state)
     end
+
+    test "handle_cast -> processes incoming messages" do
+      this = self()
+      user = "peter1234"
+      initial_state = %{
+        followers: [],
+        resources: []
+      }
+      req_follow_msg = %{
+        name: :req_follow_tag,
+        sender: this,
+        receiver: this,
+        payload: %{
+          uuid: user
+        },
+        thread: []
+      }
+      {:noreply, modified_state} = Cell.Tag.handle_cast(req_follow_msg, initial_state)
+      IO.inspect(modified_state)
+      assert( modified_state.followers == [user] )
+    end
+
+    #testing as a genserver
   end
 end
