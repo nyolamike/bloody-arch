@@ -44,5 +44,91 @@ defmodule Cell.Registry.Tag.Util.Test do
       assert(un_modified_state == initial_state)
       assert_receive(^expected_res_msg)
     end
+
+    test "create_tag -> add a tag to the tags list" do
+      this = self()
+      tag1 = "big boys"
+      initial_state = %{
+        tags: []
+      }
+      request_msg = %{
+        name: :req_create_tag,
+        sender: this,
+        receiver: this,
+        payload: %{
+          name: tag1
+        }
+      }
+
+      expected_res_msg = {
+        :"$gen_cast",
+        %{
+          name: :res_create_tag,
+          sender: this,
+          receiver: this,
+          payload: %{
+            errors: [],
+            results: :ok
+          },
+          thread: [request_msg]
+        }
+      }
+
+      modified_state =
+        Cell.Registry.Tag.Util.create_tag(
+          this,
+          request_msg |> Map.put(:thread, []),
+          initial_state
+        )
+
+      assert(modified_state.tags == [tag1])
+      assert_receive(^expected_res_msg)
+
+
+    end
+
+    test "get_tags -> returns the list of tags from the registry" do
+      this = self()
+      tag1 = "big boys"
+      tag2 = "team no sleep"
+
+      initial_state = %{
+        tags: [tag1, tag2]
+      }
+
+      request_msg = %{
+        name: :req_get_tags,
+        sender: this,
+        receiver: this,
+        payload: %{}
+
+      }
+
+      expected_res_msg = {
+        :"$gen_cast",
+        %{
+          name: :res_get_tags,
+          sender: this,
+          receiver: this,
+          payload: %{
+            errors: [],
+            results: initial_state.tags
+          },
+          thread: [request_msg]
+        }
+      }
+
+      un_modified_state =
+        Cell.Registry.Tag.Util.get_tags(
+          this,
+          request_msg |> Map.put(:thread, []),
+          initial_state
+        )
+
+      assert(un_modified_state == initial_state)
+      assert_receive(^expected_res_msg)
+
+
+    end
   end
 end
