@@ -4,16 +4,16 @@ defmodule TagRegistry.Cell do
 
   # CLIENT API
 
-  def start_link({tag_name, opts}) do
-    GenServer.start_link(__MODULE__, tag_name, opts)
+  def start_link(opts \\ []) do
+    GenServer.start_link(__MODULE__, :tag_registry_cell, opts)
   end
 
   ## SEVER CALLBACKS
 
-  def init(tag_name) do
+  def init() do
     {:ok,
      %{
-       name: tag_name,
+       name: :tag_registry_cell,
        tags: []
      }}
   end

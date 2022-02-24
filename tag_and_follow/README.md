@@ -26,6 +26,12 @@ To run all tests, execute the following command at the root directory of the pro
 mix test
 ```
 
+## Reserved Tag Names
+
+- tag_registry_cell
+- user_registry_cell
+- need to improve validation so that a tag name caaonnot be one of these names
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
