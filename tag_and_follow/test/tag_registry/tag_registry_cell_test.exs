@@ -7,6 +7,10 @@ defmodule TagRegistry.Cell.Test do
       is_alive = Process.alive?(pid)
       assert(is_alive == true)
     end
+
+    test "handle_cast -> handles a message asyncronously" do
+      TagRegistry
+    end
   end
 
 end

@@ -3,8 +3,8 @@ defmodule Tag.Cell.Test do
 
   describe "Tag Cell " do
     test "start_link -> spawns a new genserver " do
-      tag = :"big names"
-      {:ok, pid} = Tag.Cell.start_link({tag, []})
+      tag = "big names"
+      {:ok, pid} = Tag.Cell.start_link(tag)
       assert Process.alive?(pid)
     end
 
@@ -219,8 +219,8 @@ defmodule Tag.Cell.Test do
     # testing the tag cell as a Gen Server
     test "genserver -> processes incoming messages" do
       this = self()
-      tag = :"actor model framework"
-      {:ok, tag_cell_pid} = Tag.Cell.start_link({tag, []})
+      tag = "actor model framework"
+      {:ok, tag_cell_pid} = Tag.Cell.start_link(tag)
 
       user_uuid = "usr20217484909"
       user_uuid2 = "usr20217753034"
