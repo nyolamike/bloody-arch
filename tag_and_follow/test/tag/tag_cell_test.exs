@@ -217,5 +217,180 @@ defmodule Tag.Cell.Test do
     end
 
     # testing the tag cell as a Gen Server
+    test "genserver -> processes incoming messages" do
+      this = self()
+      tag = :"actor model framework"
+      {:ok, tag_cell_pid} = Tag.Cell.start_link({tag, []})
+
+      user_uuid = "usr20217484909"
+      user_uuid2 = "usr20217753034"
+      req_follow_msg = %{
+        name: :req_follow_tag,
+        sender: this,
+        receiver: tag_cell_pid,
+        payload: %{
+          uuid: user_uuid
+        },
+        thread: []
+      }
+      expected_res_msg = {
+        :"$gen_cast",
+        %{
+          name: :res_follow_tag,
+          sender: tag_cell_pid,
+          receiver: this,
+          payload: %{
+            errors: [],
+            results: :ok
+          },
+          thread: [req_follow_msg |> Map.delete(:thread)]
+        }
+      }
+
+      # send another follow request
+      req_follow_msg2 = %{
+        name: :req_follow_tag,
+        sender: this,
+        receiver: tag_cell_pid,
+        payload: %{
+          uuid: user_uuid2
+        },
+        thread: []
+      }
+      expected_res_msg2 = {
+        :"$gen_cast",
+        %{
+          name: :res_follow_tag,
+          sender: tag_cell_pid,
+          receiver: this,
+          payload: %{
+            errors: [],
+            results: :ok
+          },
+          thread: [req_follow_msg2 |> Map.delete(:thread)]
+        }
+      }
+
+      # un following a tag
+      req_un_follow_tag_msg = %{
+        name: :req_un_follow_tag,
+        sender: this,
+        receiver: tag_cell_pid,
+        payload: %{
+          uuid: user_uuid
+        },
+        thread: []
+      }
+
+      expected_res_msg3 = {
+        :"$gen_cast",
+        %{
+          name: :res_un_follow_tag,
+          sender: tag_cell_pid,
+          receiver: this,
+          payload: %{
+            errors: [],
+            results: :ok
+          },
+          thread: [req_un_follow_tag_msg |> Map.delete(:thread)]
+        }
+      }
+
+      # getting tag followers
+      req_get_followers_msg = %{
+        name: :req_get_followers,
+        sender: this,
+        receiver: tag_cell_pid,
+        payload: %{},
+        thread: []
+      }
+
+      expected_res_msg4 = {
+        :"$gen_cast",
+        %{
+          name: :res_get_followers,
+          sender: tag_cell_pid,
+          receiver: this,
+          payload: %{
+            errors: [],
+            results: [user_uuid2]
+          },
+          thread: [req_get_followers_msg |> Map.delete(:thread)]
+        }
+      }
+
+      # adding a tag resource
+      resource_uuid = "5363839309"
+
+      req_add_tag_resource_msg = %{
+        name: :req_add_tag_resource,
+        sender: this,
+        receiver: tag_cell_pid,
+        payload: %{
+          uuid: resource_uuid
+        },
+        thread: []
+      }
+
+      expected_res_msg5 = {
+        :"$gen_cast",
+        %{
+          name: :res_add_tag_resource,
+          sender: tag_cell_pid,
+          receiver: this,
+          payload: %{
+            errors: [],
+            results: :ok
+          },
+          thread: [req_add_tag_resource_msg |> Map.delete(:thread)]
+        }
+      }
+
+      # get resources from a tag
+      req_get_resources_msg = %{
+        name: :req_get_resources,
+        sender: this,
+        receiver: tag_cell_pid,
+        payload: %{},
+        thread: []
+      }
+
+      expected_res_msg6 = {
+        :"$gen_cast",
+        %{
+          name: :res_get_resources,
+          sender: tag_cell_pid,
+          receiver: this,
+          payload: %{
+            errors: [],
+            results: [resource_uuid]
+          },
+          thread: [req_get_resources_msg |> Map.delete(:thread)]
+        }
+      }
+
+
+
+
+
+
+      GenServer.cast(tag_cell_pid, req_follow_msg)
+      GenServer.cast(tag_cell_pid, req_follow_msg2)
+      GenServer.cast(tag_cell_pid, req_un_follow_tag_msg)
+      GenServer.cast(tag_cell_pid, req_get_followers_msg)
+      GenServer.cast(tag_cell_pid, req_add_tag_resource_msg)
+      GenServer.cast(tag_cell_pid, req_get_resources_msg)
+      # un unkown message will just return the state unmodifies
+      GenServer.cast(tag_cell_pid, %{ name: :req_un_kown_msg })
+
+      assert_receive(^expected_res_msg)
+      assert_receive(^expected_res_msg2)
+      assert_receive(^expected_res_msg3)
+      assert_receive(^expected_res_msg4)
+      assert_receive(^expected_res_msg5)
+      assert_receive(^expected_res_msg6)
+
+
+    end
   end
 end
