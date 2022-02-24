@@ -1,4 +1,4 @@
-defmodule Cell.Tag do
+defmodule Tag.Cell do
   # <- this brings in the GenServer behaviour
   use GenServer
 
@@ -29,11 +29,11 @@ defmodule Cell.Tag do
 
   defp handle_message(msg, state) do
     case msg.name do
-      :req_follow_tag -> self() |> Cell.Tag.Util.follow_tag(msg, state)
-      :req_un_follow_tag -> self() |> Cell.Tag.Util.un_follow_tag(msg, state)
-      :req_get_followers -> self() |> Cell.Tag.Util.get_followers(msg, state)
-      :req_add_tag_resource -> self() |> Cell.Tag.Util.add_tag_resource(msg, state)
-      :req_get_resources -> self() |> Cell.Tag.Util.get_resources(msg, state)
+      :req_follow_tag -> self() |> Tag.Lib.follow_tag(msg, state)
+      :req_un_follow_tag -> self() |> Tag.Lib.un_follow_tag(msg, state)
+      :req_get_followers -> self() |> Tag.Lib.get_followers(msg, state)
+      :req_add_tag_resource -> self() |> Tag.Lib.add_tag_resource(msg, state)
+      :req_get_resources -> self() |> Tag.Lib.get_resources(msg, state)
       _ -> state
     end
   end

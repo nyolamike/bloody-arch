@@ -1,11 +1,11 @@
-defmodule Cell.Registry.Tag.Util do
+defmodule TagRegistry.Lib do
   def does_tag_exist(self, msg, state) do
     # process msg
     # check if a tag is already in the state
     exists = msg.payload.name in state.tags
 
     # send a response back to the source
-    Cell.Util.send_response(
+    Util.send_response(
       self,
       :res_does_tag_exist,
       %{
@@ -28,7 +28,7 @@ defmodule Cell.Registry.Tag.Util do
       end
 
     # send a response back to the source
-    Cell.Util.send_response(
+    Util.send_response(
       self,
       :res_create_tag,
       %{
@@ -47,7 +47,7 @@ defmodule Cell.Registry.Tag.Util do
     tags = state.tags
 
     # send a response back to the source
-    Cell.Util.send_response(
+    Util.send_response(
       self,
       :res_get_tags,
       %{

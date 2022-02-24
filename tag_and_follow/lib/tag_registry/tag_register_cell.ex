@@ -1,4 +1,4 @@
-defmodule Cell.Registry.Tag do
+defmodule TagRegistry.Cell do
   # get in the genserver behaviour
   use GenServer
 

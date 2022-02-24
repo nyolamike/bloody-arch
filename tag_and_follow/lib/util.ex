@@ -1,4 +1,4 @@
-defmodule Cell.Util do
+defmodule Util do
   def send_response(sender, name, body, former_msg) do
     resp_msg = %{
       name: name,

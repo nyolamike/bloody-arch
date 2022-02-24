@@ -1,7 +1,7 @@
-defmodule Cell.Registry.Tag.Util.Test do
+defmodule TagRegistry.Lib.Test do
   use ExUnit.Case
 
-  describe "Tag Registry Cell " do
+  describe "TagRegistry Lib: " do
     test "does_tag_exist -> checks if a tag exists" do
       this = self()
       tag1 = "big boys"
@@ -35,7 +35,7 @@ defmodule Cell.Registry.Tag.Util.Test do
       }
 
       un_modified_state =
-        Cell.Registry.Tag.Util.does_tag_exist(
+        TagRegistry.Lib.does_tag_exist(
           this,
           request_msg |> Map.put(:thread, []),
           initial_state
@@ -75,7 +75,7 @@ defmodule Cell.Registry.Tag.Util.Test do
       }
 
       modified_state =
-        Cell.Registry.Tag.Util.create_tag(
+        TagRegistry.Lib.create_tag(
           this,
           request_msg |> Map.put(:thread, []),
           initial_state
@@ -119,7 +119,7 @@ defmodule Cell.Registry.Tag.Util.Test do
       }
 
       un_modified_state =
-        Cell.Registry.Tag.Util.get_tags(
+        TagRegistry.Lib.get_tags(
           this,
           request_msg |> Map.put(:thread, []),
           initial_state

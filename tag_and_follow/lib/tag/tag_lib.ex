@@ -1,4 +1,4 @@
-defmodule Cell.Tag.Util do
+defmodule Tag.Lib do
 
   def follow_tag(sender, msg, state) do
     # process msg
@@ -10,7 +10,7 @@ defmodule Cell.Tag.Util do
       end
 
     # send a response back to the source
-    Cell.Util.send_response(
+    Util.send_response(
       sender,
       :res_follow_tag,
       %{
@@ -34,7 +34,7 @@ defmodule Cell.Tag.Util do
       end
 
     # send a response back to the source
-    Cell.Util.send_response(
+    Util.send_response(
       self,
       :res_un_follow_tag,
       %{
@@ -52,7 +52,7 @@ defmodule Cell.Tag.Util do
     # process msg
     followers = state.followers
     # send a response back to the source
-    Cell.Util.send_response(
+    Util.send_response(
       sender,
       :res_get_followers,
       %{
@@ -75,7 +75,7 @@ defmodule Cell.Tag.Util do
       end
 
     # send a response back to the source
-    Cell.Util.send_response(
+    Util.send_response(
       sender,
       :res_add_tag_resource,
       %{
@@ -94,7 +94,7 @@ defmodule Cell.Tag.Util do
     resources = state.resources
 
     # send a response back to the source
-    Cell.Util.send_response(
+    Util.send_response(
       sender,
       :res_get_resources,
       %{
