@@ -1,7 +1,7 @@
-defmodule Cell.Tag.Util.Test do
+defmodule Tag.Lib.Test do
   use ExUnit.Case
 
-  describe "Tag cell util " do
+  describe "Tag Lib: " do
     test "follow_tag -> follows a user by adding the users uuid to the list of followers" do
       receiver = self()
       user_uuid = "4657585"
@@ -20,7 +20,7 @@ defmodule Cell.Tag.Util.Test do
       }
 
       modified_state =
-        Cell.Tag.Util.follow_tag(
+        Tag.Lib.follow_tag(
           receiver,
           request_msg |> Map.put(:thread, []),
           initial_state
@@ -62,7 +62,7 @@ defmodule Cell.Tag.Util.Test do
       }
 
       modified_state =
-        Cell.Tag.Util.un_follow_tag(
+        Tag.Lib.un_follow_tag(
           receiver,
           request_msg |> Map.put(:thread, []),
           initial_state
@@ -101,7 +101,7 @@ defmodule Cell.Tag.Util.Test do
       }
 
       un_modified_state =
-        Cell.Tag.Util.get_followers(
+        Tag.Lib.get_followers(
           receiver,
           request_msg |> Map.put(:thread, []),
           initial_state
@@ -159,7 +159,7 @@ defmodule Cell.Tag.Util.Test do
       }
 
       modified_state =
-        Cell.Tag.Util.add_tag_resource(
+        Tag.Lib.add_tag_resource(
           receiver,
           request_msg |> Map.put(:thread, []),
           initial_state
@@ -185,7 +185,7 @@ defmodule Cell.Tag.Util.Test do
       }
 
       un_modified_state =
-        Cell.Tag.Util.get_resources(
+        Tag.Lib.get_resources(
           receiver,
           request_msg |> Map.put(:thread, []),
           initial_state

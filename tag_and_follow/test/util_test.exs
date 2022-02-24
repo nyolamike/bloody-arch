@@ -1,4 +1,4 @@
-defmodule Cell.Util.Test do
+defmodule Util.Test do
   use ExUnit.Case
 
   describe "Cell Util " do
@@ -28,7 +28,7 @@ defmodule Cell.Util.Test do
           thread: [req_msg]
         }
       }
-      Cell.Util.send_response(this, res_msg_name, body, req_msg |> Map.put(:thread, []))
+      Util.send_response(this, res_msg_name, body, req_msg |> Map.put(:thread, []))
 
       assert_receive(^exp_res_msg)
 
