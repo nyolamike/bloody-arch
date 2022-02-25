@@ -44,5 +44,13 @@ defmodule Util.Test do
       assert(req_msg == msg)
     end
 
+    test "process_name -> prepares a :via tuple to be used by the tagNamesRegistry as a hey for pid lookup" do
+      tag = "eliXing Club"
+      prep_tag = tag |> String.trim() |> String.downcase()
+      expected = {:via, Registry, {TagCellNamesRegistry, prep_tag}}
+      result = Util.process_name(tag)
+      assert(result == expected)
+    end
+
   end
 end
