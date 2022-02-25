@@ -2,7 +2,8 @@ defmodule TagRegistry.Lib do
   def does_tag_exist(self, msg, state) do
     # process msg
     # check if a tag is already in the state
-    exists = msg.payload.name in state.tags
+    prep_name = Util.prep_tag_name(msg.payload.name)
+    exists = prep_name in state.tags
 
     # send a response back to the source
     Util.send_response(
@@ -20,12 +21,19 @@ defmodule TagRegistry.Lib do
   end
 
   def create_tag(self, msg, state) do
+    proper_name = msg.payload.name |> Util.prep_tag_name()
     # process msg
-    new_tags =
-      case msg.payload.name in state.tags do
+    tags_list =
+      case proper_name in state.tags do
         true -> state.tags
-        _ -> [msg.payload.name | state.tags]
+        _ -> [proper_name | state.tags]
       end
+
+    # start the tag cell genserver if its not yet started
+    case Util.tag_to_pid(proper_name) do
+      [] -> Tag.Cell.start_link(proper_name)
+      _ -> :tag_already_started
+    end
 
     # send a response back to the source
     Util.send_response(
@@ -39,7 +47,7 @@ defmodule TagRegistry.Lib do
     )
 
     # return the  state
-    %{state | tags: new_tags}
+    %{state | tags: tags_list}
   end
 
   def get_tags(self, msg, state) do

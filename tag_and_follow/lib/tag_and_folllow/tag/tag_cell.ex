@@ -4,8 +4,12 @@ defmodule Tag.Cell do
 
   # CLIENT API
 
-  def start_link({tag_name, opts}) do
-    GenServer.start_link(__MODULE__, tag_name, opts)
+  def start_link(tag_name) do
+    GenServer.start_link(
+      __MODULE__,
+      tag_name,
+      name: Util.tag_to_process_name(tag_name)
+    )
   end
 
   ## SEVER CALLBACKS
@@ -37,5 +41,4 @@ defmodule Tag.Cell do
       _ -> state
     end
   end
-
 end

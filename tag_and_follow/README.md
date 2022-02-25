@@ -26,6 +26,15 @@ To run all tests, execute the following command at the root directory of the pro
 mix test
 ```
 
+## Reserved Tag Names
+
+- tag_registry_cell
+- user_registry_cell
+- need to improve validation so that a tag name caaonnot be one of these names
+
+--> Because the tag cells are gona be dynamically reference, we need registry 
+--> We then need supervision, so we need to turn our applicatiion into a supervised one
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
@@ -42,4 +51,17 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at <https://hexdocs.pm/tag_and_follow>.
+
+## Aspects of elixir covered
+  
+- separating business logic from genserver logic
+- ExUnit tests
+- using pid Registry to dynamically infer process names and suppass the atom limit
+- looking up a process pid from the registry
+- upgrading normal mix project to a supervises application
+- Supervisors
+
+
+- specs
+
 
