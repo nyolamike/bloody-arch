@@ -4,16 +4,16 @@ defmodule TagRegistry.Cell do
 
   # CLIENT API
 
-  def start_link(opts \\ []) do
-    GenServer.start_link(__MODULE__, :tag_registry_cell, name: :tag_registry_cell)
+  def start_link(_opts) do
+    GenServer.start_link(__MODULE__, :tag_registry_cell, name: __MODULE__)
   end
 
   ## SEVER CALLBACKS
 
-  def init() do
+  def init(_opts) do
     {:ok,
      %{
-       name: :tag_registry_cell,
+       name: __MODULE__,
        tags: []
      }}
   end
@@ -28,9 +28,9 @@ defmodule TagRegistry.Cell do
 
   defp handle_message(msg, state) do
     case msg.name do
-      :req_does_tag_exist -> self() |> Cell.Registry.Tag.Util.does_tag_exist(msg, state)
-      :req_create_tag -> self() |> Cell.Registry.Tag.Util.create_tag(msg, state)
-      :req_get_tags -> self() |> Cell.Registry.Tag.Util.get_tags(msg, state)
+      :req_does_tag_exist -> self() |> TagRegistry.Lib.does_tag_exist(msg, state)
+      :req_create_tag -> self() |> TagRegistry.Lib.create_tag(msg, state)
+      :req_get_tags -> self() |> TagRegistry.Lib.get_tags(msg, state)
       _ -> state
     end
   end

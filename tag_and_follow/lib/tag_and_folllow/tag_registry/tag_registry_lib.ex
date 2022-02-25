@@ -2,7 +2,8 @@ defmodule TagRegistry.Lib do
   def does_tag_exist(self, msg, state) do
     # process msg
     # check if a tag is already in the state
-    exists = msg.payload.name in state.tags
+    prep_name = Util.prep_tag_name(msg.payload.name)
+    exists = prep_name in state.tags
 
     # send a response back to the source
     Util.send_response(
