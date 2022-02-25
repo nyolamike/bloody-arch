@@ -34,5 +34,15 @@ defmodule Util.Test do
 
     end
 
+    test "send_response -> will not send a message when request message has a  :noreply flag " do
+      this = self()
+      req_msg = %{
+        name: :req_do_something,
+        noreply: true
+      }
+      {:noreply, msg} = Util.send_response(this, :nothing, %{}, req_msg)
+      assert(req_msg == msg)
+    end
+
   end
 end

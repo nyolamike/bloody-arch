@@ -19,6 +19,8 @@ defmodule Util do
       }
 
       GenServer.cast(former_msg.sender, resp_msg)
+    else
+      {:noreply, former_msg}
     end
   end
 
