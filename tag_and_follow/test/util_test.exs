@@ -52,5 +52,30 @@ defmodule Util.Test do
       assert(result == expected)
     end
 
+    test "tag_pid -> looks up the pid of given a tag name, if it does not exist an empty list is returned " do
+      tag = "eliXing Club"
+      prep_tag = Util.prep_tag_name(tag)
+      exp_empty_search_res = Util.tag_pid(tag)
+      #create a tag cell genserve
+      this = self()
+      initial_state = %{
+        tags: []
+      }
+      req_msg = %{
+        name: :req_create_tag,
+        sender: this,
+        receiver: this,
+        payload: %{
+          name: tag
+        },
+        thread: []
+      }
+      modified_state = TagRegistry.Lib.create_tag(this, req_msg, initial_state)
+      [{pid, _}] = Util.tag_pid(tag)
+      assert(exp_empty_search_res == [])
+      assert(modified_state == %{tags: [prep_tag]})
+      assert(is_pid(pid))
+    end
+
   end
 end

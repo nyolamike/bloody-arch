@@ -20,16 +20,17 @@ defmodule TagRegistry.Lib do
   end
 
   def create_tag(self, msg, state) do
+    proper_name = msg.payload.name |> Util.prep_tag_name()
     # process msg
-    new_tags =
-      case msg.payload.name in state.tags do
+    tags_list =
+      case proper_name in state.tags do
         true -> state.tags
-        _ -> [msg.payload.name | state.tags]
+        _ -> [proper_name | state.tags]
       end
 
     # start the tag cell genserver if its not yet started
-    case Util.tag_pid(msg.payload.name) do
-      [] -> Tag.Cell.start_link(msg.payload.name)
+    case Util.tag_pid(proper_name) do
+      [] -> Tag.Cell.start_link(proper_name)
       _ -> :tag_already_started
     end
 
@@ -45,7 +46,7 @@ defmodule TagRegistry.Lib do
     )
 
     # return the  state
-    %{state | tags: new_tags}
+    %{state | tags: tags_list}
   end
 
   def get_tags(self, msg, state) do

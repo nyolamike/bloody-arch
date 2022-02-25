@@ -25,12 +25,14 @@ defmodule Util do
   end
 
   def process_name(tag_name) do
-    proper_name = tag_name |> String.trim() |> String.downcase()
+    proper_name = tag_name |>prep_tag_name()
     {:via, Registry, {TagCellNamesRegistry, proper_name}}
   end
 
   def tag_pid(tag_name) do
-    proper_name = tag_name |> String.trim() |> String.downcase()
+    proper_name = tag_name |>prep_tag_name()
     Registry.lookup(TagCellNamesRegistry, proper_name)
   end
+
+  def prep_tag_name(tag_name), do: tag_name |> String.trim() |> String.downcase()
 end
