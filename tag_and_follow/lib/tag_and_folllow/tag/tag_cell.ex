@@ -8,7 +8,7 @@ defmodule Tag.Cell do
     GenServer.start_link(
       __MODULE__,
       tag_name,
-      name: Util.process_name(tag_name)
+      name: Util.tag_to_process_name(tag_name)
     )
   end
 

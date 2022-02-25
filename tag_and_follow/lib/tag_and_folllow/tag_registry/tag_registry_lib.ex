@@ -29,7 +29,7 @@ defmodule TagRegistry.Lib do
       end
 
     # start the tag cell genserver if its not yet started
-    case Util.tag_pid(proper_name) do
+    case Util.tag_to_pid(proper_name) do
       [] -> Tag.Cell.start_link(proper_name)
       _ -> :tag_already_started
     end

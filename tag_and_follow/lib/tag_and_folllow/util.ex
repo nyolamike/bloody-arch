@@ -24,12 +24,12 @@ defmodule Util do
     end
   end
 
-  def process_name(tag_name) do
+  def tag_to_process_name(tag_name) do
     proper_name = tag_name |>prep_tag_name()
     {:via, Registry, {TagCellNamesRegistry, proper_name}}
   end
 
-  def tag_pid(tag_name) do
+  def tag_to_pid(tag_name) do
     proper_name = tag_name |>prep_tag_name()
     Registry.lookup(TagCellNamesRegistry, proper_name)
   end
