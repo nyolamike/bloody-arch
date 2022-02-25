@@ -52,6 +52,12 @@ defmodule Util.Test do
       assert(result == expected)
     end
 
+    test "prep_tag_name -> prepares a tag name" do
+      tag = "eliXing Club"
+      prep_tag = Util.prep_tag_name(tag)
+      assert(prep_tag == "elixing club")
+    end
+
     test "tag_to_pid -> looks up the pid of given a tag name, if it does not exist an empty list is returned " do
       tag = "eliXing Club"
       prep_tag = Util.prep_tag_name(tag)
